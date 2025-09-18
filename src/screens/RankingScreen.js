@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import goldMedal from '../imagens/gold.png';
-import silverMedal from '../imagens/silver.png';
-import bronzeMedal from '../imagens/bronze.png';
-import pessoasImg from '../imagens/4pessoas.png';
-import pangareImg from '../imagens/pangare.jpg';
+const goldMedal = { uri: 'https://res.cloudinary.com/dsmxqn0fa/image/upload/v1758222061/gold_wed1cg.jpg' };
+const silverMedal = { uri: 'https://res.cloudinary.com/dsmxqn0fa/image/upload/v1758222061/silver_yqa7rc.jpg' };
+const bronzeMedal = { uri: 'https://res.cloudinary.com/dsmxqn0fa/image/upload/v1758222062/bronze_xpempe.jpg' };
+const pessoasImg = { uri: 'https://res.cloudinary.com/dsmxqn0fa/image/upload/v1758222062/4pessoas_ydo5pi.webp' };
+const pangareImg = { uri: 'https://res.cloudinary.com/dsmxqn0fa/image/upload/v1758222132/pangare_xgmwv2.jpg' };
 import { Picker } from '@react-native-picker/picker';
 import {
   View,
