@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import axios from 'axios';
 
 // URL da sua API
@@ -7,22 +8,42 @@ const API_URL = 'https://bolaosca4-0.onrender.com';
 
 const RegisterScreen = ({ navigation }) => {
   const [nome, setNome] = useState('');
+  const [apelido, setApelido] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [contato, setContato] = useState('');
+  const [tipo, setTipo] = useState('Jogador');
+  const [avatar, setAvatar] = useState('');
 
   const handleRegister = async () => {
-    if (!nome || !email || !password) {
+    if (!nome || !apelido || !email || !password || !confirmPassword || !contato || !tipo || !avatar) {
       Alert.alert('Atenção', 'Preencha todos os campos.');
       return;
     }
-
+    if (password.length < 6) {
+      Alert.alert('Atenção', 'A senha deve ter pelo menos 6 caracteres.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      Alert.alert('Atenção', 'As senhas não coincidem.');
+      return;
+    }
+    // Simple email validation
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      Alert.alert('Atenção', 'E-mail inválido.');
+      return;
+    }
     try {
       const response = await axios.post(`${API_URL}/register`, {
         nome,
+        apelido,
         email,
         password,
+        contato,
+        tipo,
+        avatar,
       });
-
       if (response.status === 201) {
         Alert.alert('Sucesso', 'Cadastro realizado! Faça login agora.');
         navigation.replace('Login');
@@ -45,11 +66,18 @@ const RegisterScreen = ({ navigation }) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Nome"
+        placeholder="Nome completo"
         value={nome}
         onChangeText={setNome}
+        placeholderTextColor="#888"
       />
-
+      <TextInput
+        style={styles.input}
+        placeholder="Apelido (nome de exibição)"
+        value={apelido}
+        onChangeText={setApelido}
+        placeholderTextColor="#888"
+      />
       <TextInput
         style={styles.input}
         placeholder="E-mail"
@@ -57,16 +85,49 @@ const RegisterScreen = ({ navigation }) => {
         onChangeText={setEmail}
         keyboardType="email-address"
         autoCapitalize="none"
+        placeholderTextColor="#888"
       />
-
       <TextInput
         style={styles.input}
         placeholder="Senha"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
+        placeholderTextColor="#888"
       />
-
+      <TextInput
+        style={styles.input}
+        placeholder="Confirmar senha"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+        placeholderTextColor="#888"
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Contato (WhatsApp)"
+        value={contato}
+        onChangeText={setContato}
+        keyboardType="phone-pad"
+        placeholderTextColor="#888"
+      />
+      <View style={styles.pickerContainer}>
+        <Picker
+          selectedValue={tipo}
+          onValueChange={(itemValue) => setTipo(itemValue)}
+          style={styles.picker}
+        >
+          <Picker.Item label="Jogador" value="Jogador" />
+          <Picker.Item label="Administrador" value="Administrador" />
+        </Picker>
+      </View>
+      <TextInput
+        style={styles.input}
+        placeholder="URL do Avatar (Cloudinary)"
+        value={avatar}
+        onChangeText={setAvatar}
+        placeholderTextColor="#888"
+      />
       <Button title="Cadastrar" onPress={handleRegister} />
 
       <View style={styles.loginContainer}>
@@ -101,6 +162,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 8,
     backgroundColor: '#fff',
+  },
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 15,
+    backgroundColor: '#fff',
+    overflow: 'hidden',
+  },
+  picker: {
+    height: 50,
+    width: '100%',
+    color: '#222',
   },
   loginContainer: {
     marginTop: 20,

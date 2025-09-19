@@ -51,9 +51,11 @@ const LoginScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Acessar Minha Conta</Text>
 
+
       <TextInput
         style={styles.input}
-        placeholder="E-mail"
+        placeholder="Digite seu e-mail"
+        placeholderTextColor="#888"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
@@ -62,7 +64,8 @@ const LoginScreen = ({ navigation }) => {
 
       <TextInput
         style={styles.input}
-        placeholder="Senha"
+        placeholder="Digite sua senha"
+        placeholderTextColor="#888"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -102,6 +105,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 8,
     backgroundColor: '#fff',
+    color: '#222',
   },
   registerContainer: {
     marginTop: 20,
